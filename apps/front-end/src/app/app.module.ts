@@ -5,20 +5,32 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { appRoutes } from './app.routes';
 import { AppService } from './app.service';
+import { ReactiveFormsModule } from '@angular/forms';
+import { UserService, UserServiceImpl, Http } from './services';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
+    ReactiveFormsModule,
     RouterModule.forRoot(appRoutes, { initialNavigation: 'enabledBlocking' }),
   ],
   providers: [
     {
+      provide: Http,
+      useClass: HttpClient,
+    },
+    {
       provide: AppService,
       useClass: AppService,
-      deps: [HttpClient]
-    }
+      deps: [Http],
+    },
+    {
+      provide: UserService,
+      useClass: UserServiceImpl,
+      deps: [Http],
+    },
   ],
   bootstrap: [AppComponent],
 })

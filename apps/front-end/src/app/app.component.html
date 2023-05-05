@@ -1,3 +1,20 @@
 <pre>{{ api$ | async | json }}</pre>
 
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <label>
+    Usuário
+    <input type="text" formControlName="username" />
+  </label>
+  <label>
+    Senha
+    <input type="password" formControlName="password" />
+  </label>
+
+  <button>Enviar</button>
+</form>
+
+<pre>{{ form.value | json }}</pre>
+<pre>{{ form.controls.username.errors | json }}</pre>
+<pre>{{ form.controls.password.errors | json }}</pre>
+
 <router-outlet></router-outlet>
