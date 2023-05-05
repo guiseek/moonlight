@@ -29,12 +29,19 @@ export class AppComponent {
     readonly userService: UserService
   ) {}
 
+  hasError<K extends keyof typeof this.form.controls>(
+    key: K, code: string
+  ) {
+    const control = this.form.controls[key];
+    return control.hasError(code) && control.touched;
+  }
+
   onSubmit() {
-    if (this.form.valid) {
-      // prettier-ignore
-      this.userService
-        .create(this.form.value)
-        .subscribe(console.log);
+    // prettier-ignore
+    this.userService
+      .create(this.form.value)
+      .subscribe(console.log);
+    if (!this.form.valid) {
     }
 
     this.form.markAllAsTouched();

@@ -1,13 +1,27 @@
 <pre>{{ api$ | async | json }}</pre>
 
+<h1>Welcome {{title}}</h1>
+
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <label>
     Usuário
     <input type="text" formControlName="username" />
+    <output *ngIf="hasError('username', 'required')">
+      Usuário obrigatório
+    </output>
+    <output *ngIf="hasError('username', 'minLength')">
+      Usuário muito curto
+    </output>
   </label>
   <label>
     Senha
     <input type="password" formControlName="password" />
+    <output *ngIf="hasError('password', 'required')">
+      Senha obrigatória
+    </output>
+    <output *ngIf="hasError('password', 'minLength')">
+      Senha muito curta
+    </output>
   </label>
 
   <button>Enviar</button>
