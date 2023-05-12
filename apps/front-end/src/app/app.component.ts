@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { AppService } from './app.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserService } from './services/user.service';
-import { Observable, map, startWith } from 'rxjs';
+import { Observable, map, startWith, switchMap } from 'rxjs';
+import { Municipio } from './app.types';
 
 @Component({
   selector: 'moonlight-root',
@@ -25,27 +26,36 @@ export class AppComponent {
     ]),
   });
 
-  myControl = new FormControl('');
+  myControl = new FormControl<Municipio | string>('');
   options: string[] = ['One', 'Two', 'Three'];
-  filteredOptions: Observable<string[]>;
+  filteredOptions: Observable<(Municipio)[]>;
 
   constructor(readonly service: AppService, readonly userService: UserService) {
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
-      map((value) => this._filter(value || ''))
+      switchMap((value) => {
+        const name = typeof value === 'string' ? value : value?.nome;
+        return this._filter(name as string);
+      })
     );
   }
 
-  buscaEstados(name: string) {
-    return this
+  displayFn(municipio: Municipio): string {
+    return municipio && municipio.nome ? municipio.nome : '';
   }
 
-  private _filter(value: string): string[] {
+  private _filter(value: string) {
     const filterValue = value.toLowerCase();
 
-    return this.options.filter((option) =>
-      option.toLowerCase().includes(filterValue)
-    );
+    return this.service
+      .municipios()
+      .pipe(
+        map((municipios) =>
+          municipios.filter((option) =>
+            option.nome.toLowerCase().includes(filterValue)
+          )
+        )
+      );
   }
 
   hasError<K extends keyof typeof this.form.controls>(key: K, code: string) {
