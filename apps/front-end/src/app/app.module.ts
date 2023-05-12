@@ -7,6 +7,13 @@ import { appRoutes } from './app.routes';
 import { AppService } from './app.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserService, UserServiceImpl, Http } from './services';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [AppComponent],
@@ -14,7 +21,14 @@ import { UserService, UserServiceImpl, Http } from './services';
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatCardModule,
     RouterModule.forRoot(appRoutes, { initialNavigation: 'enabledBlocking' }),
+    BrowserAnimationsModule,
   ],
   providers: [
     {

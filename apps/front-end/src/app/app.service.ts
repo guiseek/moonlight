@@ -10,5 +10,9 @@ export class AppService {
     return this.http.get('/api')
   }
 
+  estados() {
+
+  }
+
 
 }
